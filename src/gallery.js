@@ -1,6 +1,7 @@
 "use strict"
 import galleryTemplate from './templates/gallery.hbs';
 import service from './apiService';
+import * as basicLightbox from 'basiclightbox';
 
 const res = {
   search: document.getElementById('search-form'),
@@ -42,5 +43,12 @@ const handleMoreRequest = function (event) {
   });
 };
 
+function showLargeImage(event) {
+  const imageURL = event.target.dataset.large;
+  const largeImage = basicLightbox.create(`<img src=${imageURL}>`);
+  largeImage.show();
+}
+
 res.search.addEventListener('submit', handleNewRequest);
 res.more.addEventListener('click', handleMoreRequest);
+res.gallery.addEventListener('click', showLargeImage);
