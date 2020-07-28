@@ -1,3 +1,3 @@
-import './search';
+import './apiService';
 import './gallery';
 import './styles.css';;

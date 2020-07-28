@@ -1,6 +1,6 @@
 "use strict"
 import galleryTemplate from './templates/gallery.hbs';
-import {searchImage} from './search';
+import service from './apiService';
 
 const res = {
   search: document.getElementById('search-form'),
@@ -13,19 +13,34 @@ const buildGallery = function (imageArray) {
   res.gallery.insertAdjacentHTML('beforeend', galleryCode);
 };
 
-const clearGallery = function() {
-  res.gallery.innerHTML='';
+const clearGallery = function () {
+  res.gallery.innerHTML = '';
 }
 
 const handleNewRequest = function (event) {
   event.preventDefault();
   clearGallery();
   const request = res.search[0].value;
-  searchImage(request).then(data => {
-    console.log(data.hits[0]);
-    buildGallery(data.hits)});
+  service.searchImage(request).then(data => {
+    buildGallery(data.hits)
+  });
 };
 
-const handleShowMore = function (event) {};
+const scrollGallery = function (dest) {
+  window.scrollTo({
+    top: dest,
+    behavior: 'smooth'
+  })
+}
+
+const handleMoreRequest = function (event) {
+  event.preventDefault();
+  const scrollDist = res.gallery.scrollHeight + res.gallery.offsetTop;
+  service.showMore().then(data => {
+    buildGallery(data.hits);
+    setTimeout(scrollGallery, 1000, scrollDist);
+  });
+};
 
 res.search.addEventListener('submit', handleNewRequest);
+res.more.addEventListener('click', handleMoreRequest);
