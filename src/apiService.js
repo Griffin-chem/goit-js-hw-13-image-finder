@@ -12,11 +12,10 @@ export default {
         },
       })
       .then(response => {
-        if (response.status !== 200) {
-          return response = []
-        } else {
-          return response.json()
-        };
+        return response.json()
+      })
+      .catch(() => {
+        return 'err'
       });
   },
 
@@ -29,11 +28,10 @@ export default {
         },
       })
       .then(response => {
-        if (response.status !== 200) {
-          return response = []
-        } else {
-          return response.json()
-        };
+        return response.json()
+      })
+      .catch(() => {
+        return 'err'
       });
   }
 };
